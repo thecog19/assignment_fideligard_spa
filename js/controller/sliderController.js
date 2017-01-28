@@ -1,17 +1,11 @@
-Fideligard.controller('SliderController', ['$scope', "stocksService",
-  function($scope, stocksService){
-    $scope.dateSelector = true;
-    $scope.slide = 0  ;
-    $scope.endDate = new Date() - 0;
-    $scope.startDate = new Date() - 15897600000;
-    $scope.currentDate = new Date() - 0;
-    stocksService.obtainStocks().then(function(response){console.log(response.data.query.results)})
+Fideligard.controller('SliderController', ['$scope', 'dateService',
+  function($scope, dateService){
 
-    $scope.toggleSelector = function(){
-      $scope.dateSelector = !$scope.dateSelector;
+    $scope.dates = dateService.getDates();
+
+    $scope.changeCurrentDate = function(slide) {
+      dateService.changeCurrentDate(slide);
+      $scope.dates.currentDate = dateService.getCurrentDate()
     }
 
-    $scope.changeCurrentDate = function() {
-      $scope.currentDate = new Date() - ($scope.slide * -1)
-    }
   }]);

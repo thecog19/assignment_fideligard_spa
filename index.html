@@ -18,17 +18,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.4.2/angular-ui-router.min.js"></script>
   </head>
 
-  <body class="container" ng-controller="SliderController">
+  <body class="container">
     <navbar></navbar>
 
-    <date-picker></date-picker>
-
-    <stock-data></stock-data>
-
+    <date-picker ng-controller="SliderController"></date-picker>
 
     <div class="row">
       <div class="col-xs-6">
-        LIST OF ALL STOCKS
+        <stock-data ng-controller="stocksIndexController"></stock-data>
       </div>
       <div class="col-xs-6">
         SPECIFIC CLICKED STOCK INFO
@@ -49,6 +46,8 @@
 
   <!-- services -->
   <script src="/js/services/stocksService.js"></script>
+  <script src="/js/services/dateService.js"></script>
+
 
   <!-- controllers -->
   <script src="/js/controller/sliderController.js"></script>
