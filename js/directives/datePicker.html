@@ -1,11 +1,10 @@
-<h1>{{dates.currentDate}}</h1>
 <div class="row">
   <div class="col-xs-2">
-    <b>{{dates.startDate | date:'MMM dd, yyyy'}}</b>
+    <b>{{dates.endDate | date:'MMM dd, yyyy'}}</b>
   </div>
 
   <div class="col-xs-2 col-xs-offset-8">
-    <b>{{dates.endDate | date:'MMM dd, yyyy'}}</b>
+    <b>{{dates.startDate | date:'MMM dd, yyyy'}}</b>
   </div>
 </div>
 
@@ -18,6 +17,6 @@
 
 <div class= "row">
   <div class="col-xs-12">
-    <input type="range" ng-change="changeCurrentDate(slide)" ng-model="slide" min="-15897600000" max="0" step="86400000">
+    <input type="range" ng-change="changeCurrentDate(slide)" ng-model="slide" min="-31536000000" max="0" step="8640000" width= "100%">
   </div>
 </div>

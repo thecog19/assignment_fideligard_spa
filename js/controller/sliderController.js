@@ -5,7 +5,7 @@ Fideligard.controller('SliderController', ['$scope', 'dateService',
 
     $scope.changeCurrentDate = function(slide) {
       dateService.changeCurrentDate(slide);
-      $scope.dates.currentDate = dateService.getCurrentDate()
+      $scope.dates = dateService.getDates()
     }
 
   }]);

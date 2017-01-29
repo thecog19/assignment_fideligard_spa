@@ -1,6 +1,6 @@
 
-<table class="table-striped">
-<h1>{{currentDate}}</h1>
+<table class="table table-striped">
+  <thead>
     <tr>
       <th>Symbol</th>
       <th>Price</th>
@@ -8,9 +8,13 @@
       <th>7 day</th>
       <th>30 day</th>
     </tr>
-    <tr ng-repeat="stock in stockData">
+  </thead>
+  <tbody>
+    <tr ng-repeat="stock in stockData | dateFilter : currentDate" >
       <td>{{stock.Symbol}}</td>
-      <td>{{stock.Close}}</td>
-      <td>{{stock.Close - stock.Open}}</td>
+      <td>{{stock.Close | limitTo : 6}}</td>
+      <td>{{stock.Close - stock.Open | limitTo : 6}}</td>
+      <td>{{stock.Date}}</td>
     </tr>
+  </tbody>
 </table>

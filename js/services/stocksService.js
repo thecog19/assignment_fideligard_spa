@@ -1,7 +1,7 @@
 Fideligard.factory('stocksService', [ "$http",
   function($http){
-    var _start = "2014-09-11"
-    var _end = "2015-07-11"
+    var _start = "2016-06-20"
+    var _end = "2016-12-19"
 
   var obtainStocks = function(){
       return $http({
@@ -11,6 +11,11 @@ Fideligard.factory('stocksService', [ "$http",
         failire: function(response){console.log(response)}
       })
     }
+
+  var sanitizeStocks = function(response){
+    //for each stock, generate the 30d, 7d, 1d prices
+    //and populate the object with them
+  }
 
   var urlBuilder = function(companyArray) {
     var companyString = "'" + companyArray.join("','") + "'";
