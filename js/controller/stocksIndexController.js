@@ -6,8 +6,13 @@ Fideligard.controller("stocksIndexController", ["$scope", "stocksService", "date
     $scope.currentDate = dateService.getCurrentDate();
   })
 
-  stocksService.obtainStocks().then(function(response){
-    $scope.stockData = response.data.query.results.quote
+  stocksService.obtainStocks().then(function(stocks){
+    $scope.stockData = stocks
   })
+
+  $scope.objDate = function(obj) {
+    var date = new Date(obj.Date);
+    return date;
+};
 
 }])

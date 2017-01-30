@@ -1,20 +1,104 @@
 Fideligard.factory('stocksService', [ "$http",
   function($http){
-    var _start = "2016-06-20"
-    var _end = "2016-12-19"
+    var _start = "2016-05-20"
+    var _end = "2017-01-19"
+
+    var stocksByDate = {}
+    var missing_stocks = []
 
   var obtainStocks = function(){
       return $http({
         method: "GET",
-        url: urlBuilder(["AAPL", "YAOO", "GOOG", "MSFT"]),
-        success: function(response){return response},
-        failire: function(response){console.log(response)}
+        url: urlBuilder(["AAPL", "DB", "GOOG", "MSFT"]),
+      }).then(function(response){
+          var data = response.data.query.results.quote;
+          buildStocksByDate(data)
+          sanitizeData()
+          addHistorical(data.concat(missing_stocks))
+          return data.concat(missing_stocks)
       })
     }
 
-  var sanitizeStocks = function(response){
-    //for each stock, generate the 30d, 7d, 1d prices
-    //and populate the object with them
+  var addHistorical = function(data){
+    for(var i = 0; i < data.length; i++){
+      date = data[i].Date
+      data[i].oneWeek = getDiff(7, data[i])
+      data[i].oneMonth = getDiff(30, data[i])
+    }
+  }
+
+  var getDiff = function(days, stock){
+    epoch = new Date(stock.Date)
+    epoch -= 86400000*days
+    diffStock = getStockByEpoch(epoch)
+    if(!diffStock){
+      diffStock = {}
+      diffStock[stock.Symbol] = {price: 0}
+    }
+    price = diffStock[stock.Symbol].price
+    return parseFloat(stock.Close) - parseFloat(price)
+  }
+
+  var getStockByEpoch = function(epoch){
+    date = generateDateString(epoch)
+    return stocksByDate[date];
+  }
+
+  var buildStocksByDate = function(data){
+    for (var i = 0; i < data.length; i++) {
+      newStock = {};
+      stockData = data[i];
+      date = stockData['Date'];
+      stocksForDate = stocksByDate[date];
+      if (!stocksForDate){
+        stocksForDate = stocksByDate[date] = {};
+      }
+      newStock.price = stockData['Close'];
+      newStock.symbol = stockData['Symbol'];
+      newStock.stock = data[i]
+      stocksForDate[newStock.symbol] = newStock;
+      }
+  }
+
+  var sanitizeData = function(){
+    var current_date = new Date(_end)
+    var symbols = ["AAPL", "DB", "GOOG", "MSFT"]
+    var lastStock = stocksByDate[generateDateString(current_date)]
+    console.log(lastStock)
+    for(var i = Object.keys(stocksByDate).length -1; i > 0; i--){
+      current_date -= 86400000
+      current_date_str = generateDateString(current_date)
+      if(!stocksByDate[current_date_str]){
+        var stock = {}
+        angular.copy(lastStock, stock)
+        for(var j = 0; j < symbols.length; j++){
+          new_stock = {} 
+          angular.copy(lastStock[symbols[j]].stock, new_stock)
+          missing_stocks.push(new_stock)
+        }
+        stocksByDate[current_date_str] = stock
+      }
+      lastStock = stocksByDate[current_date_str]
+    }
+  }
+
+
+  var generateDateString = function(epochTime){
+    date = new Date(epochTime)
+    year = date.getFullYear()
+    month = date.getMonth() + 1
+    month = month.toString()
+    if(month.length === 1){
+      month = "0" + month
+    }
+    day = date.getDate()
+    day = day.toString()
+     if(day.length === 1){
+      day = "0" + day
+    }
+
+    date_str = year + "-" + month + "-" + day
+    return date_str
   }
 
   var urlBuilder = function(companyArray) {

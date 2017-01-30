@@ -7,14 +7,17 @@
       <th>1 day</th>
       <th>7 day</th>
       <th>30 day</th>
+      <th>Buy</th>
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="stock in stockData | dateFilter : currentDate" >
+    <tr ng-repeat="stock in stockData | orderBy : objDate : true | dateFilter : currentDate " >
       <td>{{stock.Symbol}}</td>
       <td>{{stock.Close | limitTo : 6}}</td>
       <td>{{stock.Close - stock.Open | limitTo : 6}}</td>
-      <td>{{stock.Date}}</td>
+      <td>{{stock.oneWeek | limitTo: 6}}</td>
+      <td>{{stock.oneMonth | limitTo: 6}}</td>
+      <td><button class="btn, btn-primary btn-small" ui-sref="">Buy</button>
     </tr>
   </tbody>
 </table>
