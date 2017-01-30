@@ -28,7 +28,7 @@
         <stock-data ng-controller="stocksIndexController"></stock-data>
       </div>
       <div class="col-xs-6">
-        SPECIFIC CLICKED STOCK INFO
+        <div ui-view="buying"></div>
       </div>
     </div>
   </body>
@@ -47,6 +47,7 @@
   <!-- services -->
   <script src="/js/services/stocksService.js"></script>
   <script src="/js/services/dateService.js"></script>
+  <script src="/js/services/portfolioService.js"></script>
 
   <!-- filters -->
   <script src="/js/filters/dateFilter.js"></script>
@@ -55,6 +56,7 @@
   <!-- controllers -->
   <script src="/js/controller/sliderController.js"></script>
   <script src="/js/controller/stocksIndexController.js"></script>
+  <script src="/js/controller/formController.js"></script>
 
 
   </script>

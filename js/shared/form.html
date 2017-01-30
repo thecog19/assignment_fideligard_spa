@@ -1,0 +1,39 @@
+<h3> Trade </h3>
+<div class="row">
+  <div class="col-xs-6">
+    <form name="buyForm">
+      <div class="form-group">
+        <b> Symbol: </b>{{symbol}}
+      </div>
+      <div class="form-group"> 
+        <b> Date: </b>{{date}}
+      </div>
+      <div class="form-group">
+        <b> Quantity: </b> 
+        <input type="text" name="quantity" ng-model="quantity">
+      </div>
+      <div class="form-group">
+        <b>Buy/Sell:</b> 
+        <select ng-model="type">
+          <option>Buy</option>
+          <option>Sell</option>
+        </select> 
+      </div>
+      <div class="form-group">
+        <b>Price: </b>{{price | limitTo: 6}}
+      </div>
+      <div class="form-group">
+        <b>Cost: </b>{{price * quantity | limitTo: 12}}
+      </div>
+    </form>
+  </div>
+  <div class="col-xs-6">
+    <b>Available Funds:</b> {{funds}}
+    <br>
+    <b>Available Funds After:</b> {{funds - (price * quantity)}}
+    <br>
+    <b>Order Status:</b> {{validity}}
+  </div>  
+</div>
+<button ng-click="submitForm()" class="btn btn-success"> Commit Transaction</button>
+<button ui-sref="root" class="btn btn-danger pull-right" >Cancel</button>

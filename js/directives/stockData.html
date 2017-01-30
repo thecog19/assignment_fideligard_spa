@@ -11,13 +11,13 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="stock in stockData | orderBy : objDate : true | dateFilter : currentDate " >
+    <tr ng-repeat="stock in stockData | orderBy : objDate : true | currentFilter : currentDate " >
       <td>{{stock.Symbol}}</td>
       <td>{{stock.Close | limitTo : 6}}</td>
       <td>{{stock.Close - stock.Open | limitTo : 6}}</td>
       <td>{{stock.oneWeek | limitTo: 6}}</td>
       <td>{{stock.oneMonth | limitTo: 6}}</td>
-      <td><button class="btn, btn-primary btn-small" ui-sref="">Buy</button>
+      <td><button class="btn, btn-primary btn-small" ui-sref="buying({date:stock.Date, symbol: stock.Symbol})">Buy</button>
     </tr>
   </tbody>
 </table>

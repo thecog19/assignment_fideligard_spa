@@ -6,6 +6,10 @@ Fideligard.factory('stocksService', [ "$http",
     var stocksByDate = {}
     var missing_stocks = []
 
+  var getStock = function(date, symbol){
+    return stocksByDate[date][symbol]
+  }
+
   var obtainStocks = function(){
       return $http({
         method: "GET",
@@ -64,7 +68,6 @@ Fideligard.factory('stocksService', [ "$http",
     var current_date = new Date(_end)
     var symbols = ["AAPL", "DB", "GOOG", "MSFT"]
     var lastStock = stocksByDate[generateDateString(current_date)]
-    console.log(lastStock)
     for(var i = Object.keys(stocksByDate).length -1; i > 0; i--){
       current_date -= 86400000
       current_date_str = generateDateString(current_date)
@@ -74,6 +77,7 @@ Fideligard.factory('stocksService', [ "$http",
         for(var j = 0; j < symbols.length; j++){
           new_stock = {} 
           angular.copy(lastStock[symbols[j]].stock, new_stock)
+          new_stock.Date = current_date_str
           missing_stocks.push(new_stock)
         }
         stocksByDate[current_date_str] = stock
@@ -119,7 +123,8 @@ Fideligard.factory('stocksService', [ "$http",
 
 
   return {
-    obtainStocks: obtainStocks
+    obtainStocks: obtainStocks,
+    getStock: getStock
   }
 
 }])
