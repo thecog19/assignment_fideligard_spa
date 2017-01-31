@@ -26,8 +26,8 @@ Fideligard.factory('portfolioService',  [ "stocksService",
     stock.amount = amount
     stock.type = "Buy"
 
+    stock.id = index
     stocks_history[index] = stock
-
     index += 1
     
     addToOwned(stock, price)
@@ -57,9 +57,10 @@ Fideligard.factory('portfolioService',  [ "stocksService",
     }
 
     stock.type = "Sell"
-    
+    stock.index = index
     stocks_history[index] = stock
-
+    index += 1
+    
     price = stock.stock.Close
 
     removeStocks(amount, date, stock.symbol)

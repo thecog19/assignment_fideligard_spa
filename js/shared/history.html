@@ -1,5 +1,10 @@
 <h3> Transactions </h3>
-
+<div class="form-group">
+  <label>Filter</label>
+  <input type="text" ng-model="inputFilter">
+  <span>Buy:</span> <input type="checkbox" ng-model="buy">
+  <span>Sell:</span> <input type="checkbox" ng-model="sell">
+</div>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -12,7 +17,7 @@
   </thead>
 
   <tbody>
-    <tr ng-repeat="stock in history" >
+    <tr ng-repeat="stock in history | historyFilter : inputFilter"  >
       <td>{{stock.stock.Date}}</td>
       <td>{{stock.symbol}}</td>
       <td>{{stock.type}}</td>
