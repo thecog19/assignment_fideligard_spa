@@ -10,6 +10,8 @@ Fideligard.factory('stocksService', [ "$http",
     return stocksByDate[date][symbol]
   }
 
+  
+
   var obtainStocks = function(){
       return $http({
         method: "GET",
