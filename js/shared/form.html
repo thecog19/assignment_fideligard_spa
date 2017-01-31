@@ -1,7 +1,7 @@
 <h3> Trade </h3>
 <div class="row">
-  <div ng-if="errorRaised">
-    {{error}}
+  <div ng-if="messageDispay">
+    {{message}}
   </div>
   <div class="col-xs-6">
     <form name="buyForm">
@@ -13,7 +13,7 @@
       </div>
       <div class="form-group">
         <b> Quantity: </b> 
-        <input type="text" name="quantity" ng-model="quantity" ng-change="purchaseValidity()">
+        <input type="text" name="quantity" ng-model="quantity" ng-change="validityCheck()">
       </div>
       <div class="form-group">
         <b>Buy/Sell:</b> 
@@ -36,6 +36,8 @@
     <b>Available Funds After:</b> {{funds - (price * quantity)}}
     <br>
     <b>Order Status:</b> {{validity}}
+    <br>
+    <b>Owned:</b> {{owned}}
   </div>  
 </div>
 <button ng-click="commitAction()" class="btn btn-success"> Commit Transaction</button>
