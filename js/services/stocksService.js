@@ -116,7 +116,7 @@ Fideligard.factory('stocksService', [ "$http",
     var startDate = _start.replace(/-/g, '/');
     var endDate = _end.replace(/-/g, '/');
 
-    return 'http://query.yahooapis.com/v1/public/yql?q=' +
+    return 'https://query.yahooapis.com/v1/public/yql?q=' +
               'select * from yahoo.finance.historicaldata ' +
               'where symbol in (' + companyString + ') ' +
               'and startDate = "' + startDate + '" ' +
