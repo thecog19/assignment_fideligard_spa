@@ -43,6 +43,9 @@ Fideligard.factory('stocksService', [ "$http",
       diffStock[stock.Symbol] = {price: 0}
     }
     price = diffStock[stock.Symbol].price
+    if(!price){
+      price = stock.Close
+    }
     return parseFloat(stock.Close) - parseFloat(price)
   }
 

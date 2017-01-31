@@ -114,7 +114,7 @@ Fideligard.factory('portfolioService',  [ "stocksService",
     for(company in stocks_owned){
       var temp_array = []
       for(date in stocks_owned[company]){
-        if((new Date(date) - 0) + 43200000 =< epoch ){
+        if((new Date(date) - 0) - 43200000 <= epoch ){
           console.log((new Date(date) - 0) + 43200000)
           clone = {}
           angular.copy(stocks_owned[company][date], clone)
@@ -136,7 +136,7 @@ Fideligard.factory('portfolioService',  [ "stocksService",
     aggregate_object.symbol = array[0].symbol
     current_stock = stocksService.getStockByEpoch(epoch)[aggregate_object.symbol]
     current_stock = stocksService.addHistorical(current_stock).stock
-    console.log(current_stock)
+    aggregate_object.date = current_stock.Date
     aggregate_object.price = current_stock.Close
     aggregate_object.oneWeek = current_stock.oneWeek
     aggregate_object.oneMonth = current_stock.oneMonth

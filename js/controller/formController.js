@@ -54,7 +54,7 @@ Fideligard.controller('formController', ['$scope', '$stateParams', "stocksServic
     $scope.buyStock = function(){
       if($scope.purchaseValidity()){
         $scope.messageDispay = true
-        $scope.message = "You purchased " + $scope.quantity  + "stocks in " + $scope.symbol + " on " + $scope.date
+        $scope.message = "You purchased " + $scope.quantity  + " stocks in " + $scope.symbol + " on " + $scope.date
         portfolioService.makePurchase($scope.quantity, $scope.stock)
         $scope.funds = portfolioService.getFunds()
         $scope.owned = portfolioService.getQuantity($scope.date, $scope.symbol)
@@ -67,7 +67,7 @@ Fideligard.controller('formController', ['$scope', '$stateParams', "stocksServic
     $scope.sellStock = function(){
       if($scope.sellValidity()){
         $scope.messageDispay = true
-        $scope.message = "You sold " + $scope.quantity  + "stocks in " + $scope.symbol + " on " + $scope.date
+        $scope.message = "You sold " + $scope.quantity  + " stocks in " + $scope.symbol + " on " + $scope.date
         portfolioService.makeSale($scope.quantity, $scope.stock, $scope.date)
         $scope.funds = portfolioService.getFunds()
         $scope.owned = portfolioService.getQuantity($scope.date, $scope.symbol)

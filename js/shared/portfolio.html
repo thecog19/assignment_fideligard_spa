@@ -16,7 +16,7 @@
       <th>Trade?</th>
     </tr>
   </thead>
-  {{date}}
+
   <tbody>
     <tr ng-repeat="stock in portfolio" >
       <td>{{stock.symbol}}</td>
@@ -28,7 +28,7 @@
       <td>{{stock.oneDay | limitTo: 6}}</td>
       <td>{{stock.oneWeek | limitTo: 6}}</td>
       <td>{{stock.oneMonth | limitTo: 6}}</td>
-      <td><button class="btn btn-primary btn-small">Trade</button></td>
+      <td><button class="btn btn-primary btn-small" ui-sref="buying({date:stock.date, symbol: stock.symbol})">Trade</button></td>
 
     </tr>
   </tbody>

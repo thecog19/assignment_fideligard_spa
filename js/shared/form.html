@@ -1,8 +1,10 @@
 <h3> Trade </h3>
 <div class="row">
-  <div ng-if="messageDispay">
-    {{message}}
-  </div>
+
+    <div ng-show="messageDispay" class="message">
+      {{message}}
+    </div>
+
   <div class="col-xs-6">
     <form name="buyForm">
       <div class="form-group">
