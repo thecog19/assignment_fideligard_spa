@@ -19,6 +19,17 @@ Fideligard.config(function($stateProvider, $urlRouterProvider)
   }
   })
 
+  .state("history", {
+    url: "history",
+    views: {
+      "history":{
+        templateUrl: "/js/shared/history.html",
+        controller: "historyController"
+      }
+    }
+
+  })
+
   
 
 })

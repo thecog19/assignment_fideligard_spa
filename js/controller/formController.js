@@ -25,7 +25,6 @@ Fideligard.controller('formController', ['$scope', '$stateParams', "stocksServic
     }
 
     $scope.sellValidity = function(){
-      console.log($scope.quantity)
       if($scope.quantity > $scope.owned){
         $scope.buyForm.quantity.$setValidity("cost", false)
         $scope.validity = "Not Valid!"
@@ -62,7 +61,7 @@ Fideligard.controller('formController', ['$scope', '$stateParams', "stocksServic
       if($scope.sellValidity()){
         $scope.messageDispay = true
         $scope.message = "You sold " + $scope.quantity  + "stocks in " + $scope.symbol + " on " + $scope.date
-        portfolioService.makeSale($scope.quantity, $scope.stock)
+        portfolioService.makeSale($scope.quantity, $scope.stock, $scope.date)
         $scope.funds = portfolioService.getFunds()
         $scope.owned = portfolioService.getQuantity($scope.date, $scope.symbol)
       }else{

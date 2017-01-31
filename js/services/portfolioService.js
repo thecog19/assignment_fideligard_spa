@@ -3,7 +3,12 @@ Fideligard.factory('portfolioService',  [ "stocksService",
   var funds = 100000
   var stocks_history = {}
   var stocks_owned = {}
+  var index = 0
 
+
+  var returnHistory = function(){
+    return stocks_history
+  }
   var modifyFunds = function(amount){
     funds += amount
   }
@@ -13,22 +18,18 @@ Fideligard.factory('portfolioService',  [ "stocksService",
   }
 
   var makePurchase = function(amount, stock){
+
     price = amount*stock.price
     if(0 > funds - price){
       return false
     }
     stock.amount = amount
-    key = stock.stock.Date + " " + stock.symbol
-    if(!stocks_history[key]){
-      stocks_history[key] = {}
-    } 
-    if (!stocks_history[key]["buy"]){
-      stocks_history[key]["buy"] = stock
-    }else{
-      stocks_history[key]["buy"].amount += amount
-    }
+    stock.type = "Buy"
+
+    stocks_history[index] = stock
+
+    index += 1
     
-    console.log(stocks_history)
     addToOwned(stock, price)
 
     funds -= price
@@ -42,23 +43,26 @@ Fideligard.factory('portfolioService',  [ "stocksService",
     if(!stocks_owned[owned.symbol]){
       stocks_owned[owned.symbol] = {}
     }
-    stocks_owned[owned.symbol][owned.stock.Date] = owned
-
+    if(!stocks_owned[owned.symbol][owned.stock.Date]){
+      stocks_owned[owned.symbol][owned.stock.Date] = owned
+    }else{
+      stocks_owned[owned.symbol][owned.stock.Date].amount = parseFloat(owned.amount) + parseFloat(stocks_owned[owned.symbol][owned.stock.Date].amount)
+    }
   }
 
   var makeSale = function(amount, stock, date){
+
     if(amount > getQuantity(date, stock.stock.Symbol)){
       return false
     }
-    key = stock.Date + " " + stock.Symbol
-    if(!stocks_history[key]){
-      stocks_history[key] = {}
-    } 
-    stocks_history[key]["sell"] = stock
+
+    stock.type = "Sell"
+    
+    stocks_history[index] = stock
 
     price = stock.stock.Close
 
-    removeStocks(amount, stock.Symbol, date)
+    removeStocks(amount, date, stock.symbol)
 
     funds += price * amount
 
@@ -68,18 +72,18 @@ Fideligard.factory('portfolioService',  [ "stocksService",
     while(quantity > 0){
       stocks = stocks_owned[symbol]
       var current_stock;
-      for(stock in stocks){
-        var current_stock_date = date
-        if(new Date(current_stock_date) - 0 > new Date(stock.stock.Date) - 0){
-          current_stock = stock
-          current_stock_date = stock.stock.Date
+      for(current_stock_date in stocks){
+        stored_date = date
+        if(new Date(stored_date) - 0 >= new Date(current_stock_date) - 0){
+          current_stock = stocks[current_stock_date]
+          stored_date = current_stock_date
         }
       }
-      if(current_stock.quantity - quantity > 0){
-        current_stock.quantity -= quantity
+      if(current_stock.amount - quantity > 0){
+        current_stock.amount =  parseFloat(current_stock.amount) - quantity
         quantity = 0
       }else{
-        quantity -= current_stock.quantity
+        quantity -= parseFloat(current_stock.amount)
         delete stocks[current_stock.stock.Date]
       }
     }
@@ -102,7 +106,8 @@ Fideligard.factory('portfolioService',  [ "stocksService",
     modifyFunds: modifyFunds,
     makePurchase: makePurchase,
     makeSale: makeSale,
-    getQuantity: getQuantity
+    getQuantity: getQuantity,
+    returnHistory: returnHistory
   }
 
 }])

@@ -26,14 +26,14 @@
         <b>Price: </b>{{price | limitTo: 6}}
       </div>
       <div class="form-group">
-        <b>Cost: </b>{{price * quantity | limitTo: 12}}
+        <b>Net Price: </b>{{price * quantity | limitTo: 12}}
       </div>
     </form>
   </div>
   <div class="col-xs-6">
     <b>Available Funds:</b> {{funds}}
     <br>
-    <b>Available Funds After:</b> {{funds - (price * quantity)}}
+    <b>Available Funds After:</b> {{type === "Buy" ? funds - (price * quantity) : funds + (price * quantity)}}
     <br>
     <b>Order Status:</b> {{validity}}
     <br>
