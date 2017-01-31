@@ -1,0 +1,35 @@
+<h3> Portfolio </h3>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Symbol</th>
+      <th>Quantity</th>
+      <th>Base Cost</th>
+      <th>Current Value</th>
+      <th>Profit/Loss</th>
+      <th>Current Price</th>
+      <th>1 Day</th>
+      <th>7 Day</th>
+      <th>30 Day</th>
+      
+      <th>Trade?</th>
+    </tr>
+  </thead>
+  {{date}}
+  <tbody>
+    <tr ng-repeat="stock in portfolio" >
+      <td>{{stock.symbol}}</td>
+      <td>{{stock.amount}}</td>
+      <td>{{stock.cost | limitTo: 6}}</td>
+      <td>{{stock.value | limitTo: 6}}</td>
+      <td>{{stock.profit | limitTo: 6}}</td>
+      <td>{{stock.price | limitTo: 6}}</td>
+      <td>{{stock.oneDay | limitTo: 6}}</td>
+      <td>{{stock.oneWeek | limitTo: 6}}</td>
+      <td>{{stock.oneMonth | limitTo: 6}}</td>
+      <td><button class="btn btn-primary btn-small">Trade</button></td>
+
+    </tr>
+  </tbody>
+</table>

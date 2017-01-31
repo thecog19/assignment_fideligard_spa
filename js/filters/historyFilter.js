@@ -1,6 +1,6 @@
 Fideligard.filter("historyFilter", [
   function() {
-  return function(collection, filter, include) {
+  return function(collection, filter) {
     //checkbox for Buy only VS Sell only goes here. 
     if(!filter){
       return collection

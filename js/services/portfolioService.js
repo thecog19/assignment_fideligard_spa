@@ -1,5 +1,5 @@
 Fideligard.factory('portfolioService',  [ "stocksService",
-  function(stockService){
+  function(stocksService){
   var funds = 100000
   var stocks_history = {}
   var stocks_owned = {}
@@ -19,18 +19,23 @@ Fideligard.factory('portfolioService',  [ "stocksService",
 
   var makePurchase = function(amount, stock){
 
-    price = amount*stock.price
+    var new_stock = {}
+
+    angular.copy(stock, new_stock)
+
+    price = amount*new_stock.price
     if(0 > funds - price){
       return false
     }
-    stock.amount = amount
-    stock.type = "Buy"
+    new_stock.amount = amount
+    new_stock.type = "Buy"
 
-    stock.id = index
-    stocks_history[index] = stock
+    new_stock.id = index
+  
+    stocks_history[index] = new_stock
     index += 1
     
-    addToOwned(stock, price)
+    addToOwned(new_stock, price)
 
     funds -= price
   }
@@ -51,20 +56,23 @@ Fideligard.factory('portfolioService',  [ "stocksService",
   }
 
   var makeSale = function(amount, stock, date){
-
     if(amount > getQuantity(date, stock.stock.Symbol)){
       return false
     }
+    var new_stock = {}
+    angular.copy(stock, new_stock)
 
-    stock.type = "Sell"
-    stock.index = index
-    stocks_history[index] = stock
+    new_stock.type = "Sell"
+    new_stock.index = index
     index += 1
+
+    price = new_stock.stock.Close
+
+    removeStocks(amount, date, new_stock.symbol)
+    new_stock.amount = amount
+
+    stocks_history[index] = new_stock
     
-    price = stock.stock.Close
-
-    removeStocks(amount, date, stock.symbol)
-
     funds += price * amount
 
   }
@@ -101,6 +109,49 @@ Fideligard.factory('portfolioService',  [ "stocksService",
     return count
   }
 
+  var portfolioToDate = function(epoch){
+    var return_array = []
+    for(company in stocks_owned){
+      var temp_array = []
+      for(date in stocks_owned[company]){
+        if((new Date(date) - 0) + 43200000 =< epoch ){
+          console.log((new Date(date) - 0) + 43200000)
+          clone = {}
+          angular.copy(stocks_owned[company][date], clone)
+          temp_array.push(clone)
+        }
+      }
+      if(!!temp_array.length){
+        return_array.push(agregate_results(temp_array, epoch))
+      }
+    }
+    if(return_array.length === 0){
+      return [{}]
+    }
+    return return_array
+  }
+
+  var agregate_results = function(array, epoch){
+    aggregate_object = {}
+    aggregate_object.symbol = array[0].symbol
+    current_stock = stocksService.getStockByEpoch(epoch)[aggregate_object.symbol]
+    current_stock = stocksService.addHistorical(current_stock).stock
+    console.log(current_stock)
+    aggregate_object.price = current_stock.Close
+    aggregate_object.oneWeek = current_stock.oneWeek
+    aggregate_object.oneMonth = current_stock.oneMonth
+    aggregate_object.oneDay = parseFloat(current_stock.Close) - parseFloat(current_stock.Open)
+    aggregate_object.cost = 0
+    aggregate_object.amount = 0
+    for(var i = 0; i < array.length; i++){
+      aggregate_object.cost += parseFloat(array[i].price)
+      aggregate_object.amount += parseFloat(array[i].amount)
+    }
+    aggregate_object.value =  parseFloat(aggregate_object.price) * aggregate_object.amount
+    aggregate_object.profit = aggregate_object.value -  aggregate_object.cost
+    return aggregate_object
+  }
+
 
   return {
     getFunds: getFunds,
@@ -108,7 +159,8 @@ Fideligard.factory('portfolioService',  [ "stocksService",
     makePurchase: makePurchase,
     makeSale: makeSale,
     getQuantity: getQuantity,
-    returnHistory: returnHistory
+    returnHistory: returnHistory,
+    portfolioToDate: portfolioToDate
   }
 
 }])

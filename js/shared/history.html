@@ -2,8 +2,8 @@
 <div class="form-group">
   <label>Filter</label>
   <input type="text" ng-model="inputFilter">
-  <span>Buy:</span> <input type="checkbox" ng-model="buy">
-  <span>Sell:</span> <input type="checkbox" ng-model="sell">
+  <span>Buy:</span> <input type="checkbox" ng-change="toggleBuy" ng-model="buy">
+  <span>Sell:</span> <input type="checkbox" ng-change="toggleSell" ng-model="sell">
 </div>
 <table class="table table-striped">
   <thead>
@@ -17,7 +17,7 @@
   </thead>
 
   <tbody>
-    <tr ng-repeat="stock in history | historyFilter : inputFilter"  >
+    <tr ng-repeat="stock in history | historyFilter : inputFilter | includeFilter : buy : sell "  >
       <td>{{stock.stock.Date}}</td>
       <td>{{stock.symbol}}</td>
       <td>{{stock.type}}</td>

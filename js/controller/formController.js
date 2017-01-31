@@ -1,5 +1,5 @@
-Fideligard.controller('formController', ['$scope', '$stateParams', "stocksService", "portfolioService",
-  function($scope, $stateParams, stocksService, portfolioService){
+Fideligard.controller('formController', ['$scope', '$stateParams', "stocksService", "portfolioService", "dateService",
+  function($scope, $stateParams, stocksService, portfolioService, dateService){
     $scope.date = $stateParams.date
     $scope.symbol = $stateParams.symbol
     $scope.stock = stocksService.getStock($scope.date, $scope.symbol)
@@ -11,6 +11,13 @@ Fideligard.controller('formController', ['$scope', '$stateParams', "stocksServic
     $scope.owned = portfolioService.getQuantity($scope.date, $scope.symbol)
 
     $scope.messageDispay = false
+
+    $scope.$on('dateChange', function(event) {
+      $scope.date = new Date(dateService.getCurrentDate()).yyyymmdd();
+      $scope.stock = stocksService.getStock($scope.date, $scope.symbol)
+      $scope.price = $scope.stock.price
+      $scope.owned = portfolioService.getQuantity($scope.date, $scope.symbol)
+    })
 
     $scope.purchaseValidity = function(){
       if($scope.quantity * $scope.price > $scope.funds){
@@ -80,3 +87,13 @@ Fideligard.controller('formController', ['$scope', '$stateParams', "stocksServic
     }
 
   }]);
+
+Date.prototype.yyyymmdd = function() {
+  var mm = this.getMonth() + 1; 
+  var dd = this.getDate();
+
+  return [this.getFullYear(),
+          (mm>9 ? '' : '0') + mm,
+          (dd>9 ? '' : '0') + dd
+         ].join('-');
+};

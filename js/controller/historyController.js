@@ -4,10 +4,15 @@ Fideligard.controller('historyController', ['$scope', 'dateService', "portfolioS
     $scope.sell = true
     $scope.history = portfolioService.returnHistory();
 
-    var returnConditions = function(){
-      //this is where I left off. 
-      if(buy && sell){
-        return true
-      }
+    var checkDate = function(date){
+      return new Date(date) - 0
+    }
+
+    var toggleBuy = function(){
+      $scope.buy = !$scope.buy
+    }
+
+    var toggleSell = function(){
+      $scope.sell = !$scope.sell
     }
   }]);

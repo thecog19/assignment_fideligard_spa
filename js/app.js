@@ -30,6 +30,16 @@ Fideligard.config(function($stateProvider, $urlRouterProvider)
 
   })
 
+.state("portfolio", {
+    url: "portfolio",
+    views: {
+      "portfolio":{
+        templateUrl: "/js/shared/portfolio.html",
+        controller: "portfolioController"
+      }
+    }
+
+  })
   
 
 })

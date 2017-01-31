@@ -31,6 +31,7 @@ Fideligard.factory('stocksService', [ "$http",
       data[i].oneWeek = getDiff(7, data[i])
       data[i].oneMonth = getDiff(30, data[i])
     }
+    return data
   }
 
   var getDiff = function(days, stock){
@@ -126,7 +127,9 @@ Fideligard.factory('stocksService', [ "$http",
 
   return {
     obtainStocks: obtainStocks,
-    getStock: getStock
+    getStock: getStock,
+    getStockByEpoch: getStockByEpoch,
+    addHistorical: addHistorical
   }
 
 }])
