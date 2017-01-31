@@ -13,7 +13,7 @@ Fideligard.config(function($stateProvider, $urlRouterProvider)
     url: "buying?:date?symbol",
     views: {
       "buying": {
-    templateUrl: "/js/shared/form.html",
+    templateUrl: "js/shared/form.html",
     controller: "formController"
     }
   }
@@ -23,7 +23,7 @@ Fideligard.config(function($stateProvider, $urlRouterProvider)
     url: "history",
     views: {
       "history":{
-        templateUrl: "/js/shared/history.html",
+        templateUrl: "js/shared/history.html",
         controller: "historyController"
       }
     }
@@ -34,7 +34,7 @@ Fideligard.config(function($stateProvider, $urlRouterProvider)
     url: "portfolio",
     views: {
       "portfolio":{
-        templateUrl: "/js/shared/portfolio.html",
+        templateUrl: "js/shared/portfolio.html",
         controller: "portfolioController"
       }
     }
