@@ -20,7 +20,8 @@ Fideligard.factory('stocksService', [ "$http",
           var data = response.data.query.results.quote;
           buildStocksByDate(data)
           sanitizeData()
-          addHistorical(data.concat(missing_stocks))
+          addHistorical(data)
+          addHistorical(missing_stocks)
           return data.concat(missing_stocks)
       })
     }
@@ -74,7 +75,7 @@ Fideligard.factory('stocksService', [ "$http",
     var current_date = new Date(_end)
     var symbols = ["AAPL", "DB", "GOOG", "MSFT"]
     var lastStock = stocksByDate[generateDateString(current_date)]
-    for(var i = Object.keys(stocksByDate).length -1; i > 0; i--){
+    for(var i = 245; i > 0; i--){ //245 days in our dataset
       current_date -= 86400000
       current_date_str = generateDateString(current_date)
       if(!stocksByDate[current_date_str]){

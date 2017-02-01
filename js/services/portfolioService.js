@@ -114,7 +114,7 @@ Fideligard.factory('portfolioService',  [ "stocksService",
     for(company in stocks_owned){
       var temp_array = []
       for(date in stocks_owned[company]){
-        if((new Date(date) - 0) - 43200000 <= epoch ){
+        if((new Date(date) - 0) - 73200000 <= epoch ){
           console.log((new Date(date) - 0) + 43200000)
           clone = {}
           angular.copy(stocks_owned[company][date], clone)
@@ -126,7 +126,7 @@ Fideligard.factory('portfolioService',  [ "stocksService",
       }
     }
     if(return_array.length === 0){
-      return [{}]
+      return []
     }
     return return_array
   }
